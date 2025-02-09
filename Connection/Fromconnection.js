@@ -62,24 +62,21 @@ router.post("/",middleware,async(req,res)=>{
  }
  
  if(!["accepted","rejected"].includes(status)){
-  return res.status(400).send("status eror ...");
+  return res.status(400).send("status eror ....");
  }
 
-//  const filtered=await Connectionreq.findOne({fromUserId,toUserId}).populate(name,"jhhjhjkj");
-//  if(!filtered ){
-//   return res.status(400).send("there is no data in database ")
-//  }
+
 const filtered=Connectionreq.findOne({ fromUserId, toUserId })
   .populate("fromUserId", "name")  
   .populate("toUserId", "name")
-  .select("fromUserId toUserId") // Select only populated fields
+  .select("fromUserId toUserId") 
   .then(result => {
     if (!result) {
       console.log("No data found");
       return;
     }
 
-    // Extracting names
+   
     const fromUserName = result.fromUserId?.name || "Unknown";
     const toUserName = result.toUserId?.name || "Unknown";
 
